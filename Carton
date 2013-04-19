@@ -1,0 +1,10 @@
+(source "melpa" "http://melpa.milkbox.net/packages/")
+
+(package "simplezen" "0.1.0" "A simple subset of zencoding-mode for Emacs.")
+
+(depends-on "s" "1.4.0")
+(depends-on "dash" "1.1.0")
+
+(development
+  (depends-on "ecukes")
+  (depends-on "espuds"))
