@@ -49,9 +49,9 @@
 (defun simplezen-expand ()
   (interactive)
   (let* ((end (point))
-         (beg (progn (search-backward-regexp " \\|^")
-                     (when (looking-at " ") (forward-char 1))
-                     (point)))
+         (beg (save-excursion (search-backward-regexp " \\|^")
+                              (when (looking-at " ") (forward-char 1))
+                              (point)))
          (expressions (s-slice-at "[.#]" (buffer-substring beg end)))
          (first (car expressions))
          (tagname (if (or (s-starts-with? "." first)
@@ -64,12 +64,13 @@
                          (--filter (s-starts-with? "." it))
                          (--map (s-chop-prefix "." it))
                          (s-join " "))))
-          (delete-char (- end beg))
+          (delete-char (- beg end))
           (insert "<" tagname
                   (if (s-blank? id) "" (s-concat " id=\"" (s-chop-prefix "#" id) "\""))
                   (if (s-blank? classes) "" (s-concat " class=\"" classes "\""))
-                  ">"
-                  (if (member tagname simplezen-empty-tags) "" (s-concat "</" tagname ">"))))
+                  ">")
+          (unless (member tagname simplezen-empty-tags)
+            (save-excursion (insert "</" tagname ">"))))
       (when simplezen-fallback-behavior
         (call-interactively simplezen-fallback-behavior)))))
 

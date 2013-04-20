@@ -21,6 +21,12 @@ Feature: Expanding tags
     And I press "TAB"
     Then I should not see "<abc"
 
+  Scenario: does not move point needlessly
+    Given I type "abc"
+    And I press "TAB"
+    And I type "def"
+    Then I should see "abcdef"
+
   Scenario: completes class names
     Given I type ".abc"
     And I press "TAB"
@@ -41,3 +47,9 @@ Feature: Expanding tags
     And I press "TAB"
     Then I should see "<input class="required">"
     And I should not see "</input>"
+
+  Scenario: places point inside tags
+    Given I type "h3"
+    And I press "TAB"
+    And I type "title"
+    Then I should see "<h3>title</h3>"
