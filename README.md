@@ -17,7 +17,7 @@ So why not just use zencoding-mode for a much richer set of features?
  - this is simple enough to be predictable
 
 The original had a way of surprising me. Like when I just wanted to
-add a quick &lt;code></code> tag inside some prose, and it garbled the
+add a quick &lt;code>&lt;/code> tag inside some prose, and it garbled the
 entire sentence. That doesn't happen here, since this subset does not
 look past whitespace.
 
