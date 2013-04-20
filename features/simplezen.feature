@@ -16,6 +16,11 @@ Feature: Expanding tags
     And I press "TAB"
     Then I should see "abc <div></div> def"
 
+  Scenario: completes from end of tag
+    Given I insert "<div>span"
+    And I press "TAB"
+    Then I should see "<div><span></span>"
+
   Scenario: only completes valid html tags
     Given I type "abc"
     And I press "TAB"
