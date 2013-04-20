@@ -49,10 +49,10 @@ You can bind `simplezen-expand` to any button of your choosing.
 
 If you want it bound to `tab` you can do this:
 
-    (define-key html-mode-map (kbd "C-c C-z") 'simplezen-expand-or-indent-for-tab)
+    (define-key html-mode-map (kbd "TAB") 'simplezen-expand-or-indent-for-tab)
 
 Then it will still indent the line, except in cases where you're
-looking at a valid simplezen-expression (see above).
+looking back at a valid simplezen-expression (see above).
 
 To get it working with yasnippet aswell, I did this:
 
