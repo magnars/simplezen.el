@@ -1,5 +1,8 @@
 Feature: Expanding tags
 
+  Scenario: don't fail on blank
+    When I press "TAB"
+
   Scenario: tagname
     Given I type "div"
     And I press "TAB"

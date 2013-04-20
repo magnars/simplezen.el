@@ -94,33 +94,38 @@
 (defvar simplezen-fallback-behavior nil
   "Function to call if simplezen does not find a match.")
 
+(defun simplezen--maybe-fall-back ()
+  (when simplezen-fallback-behavior
+    (call-interactively simplezen-fallback-behavior)))
+
 (defun simplezen-expand ()
   (interactive)
-  (let* ((end (point))
-         (beg (save-excursion (search-backward-regexp " \\|^\\|>")
-                              (unless (bolp) (forward-char 1))
-                              (point)))
-         (expressions (s-slice-at "[.#]" (buffer-substring beg end)))
-         (first (car expressions))
-         (tagname (if (or (s-starts-with? "." first)
-                          (s-starts-with? "#" first))
-                      "div"
-                    first)))
-    (if (member tagname simplezen-html-tags)
-        (let ((id (--first (s-starts-with? "#" it) expressions))
-              (classes (->> expressions
-                         (--filter (s-starts-with? "." it))
-                         (--map (s-chop-prefix "." it))
-                         (s-join " "))))
-          (delete-char (- beg end))
-          (insert "<" tagname
-                  (if (s-blank? id) "" (s-concat " id=\"" (s-chop-prefix "#" id) "\""))
-                  (if (s-blank? classes) "" (s-concat " class=\"" classes "\""))
-                  ">")
-          (unless (member tagname simplezen-empty-tags)
-            (save-excursion (insert "</" tagname ">"))))
-      (when simplezen-fallback-behavior
-        (call-interactively simplezen-fallback-behavior)))))
+  (if (looking-back "[[:lower:]1-6]")
+      (let* ((end (point))
+             (beg (save-excursion (search-backward-regexp " \\|^\\|>")
+                                  (unless (bolp) (forward-char 1))
+                                  (point)))
+             (expressions (s-slice-at "[.#]" (buffer-substring beg end)))
+             (first (car expressions))
+             (tagname (if (or (s-starts-with? "." first)
+                              (s-starts-with? "#" first))
+                          "div"
+                        first)))
+        (if (member tagname simplezen-html-tags)
+            (let ((id (--first (s-starts-with? "#" it) expressions))
+                  (classes (->> expressions
+                             (--filter (s-starts-with? "." it))
+                             (--map (s-chop-prefix "." it))
+                             (s-join " "))))
+              (delete-char (- beg end))
+              (insert "<" tagname
+                      (if (s-blank? id) "" (s-concat " id=\"" (s-chop-prefix "#" id) "\""))
+                      (if (s-blank? classes) "" (s-concat " class=\"" classes "\""))
+                      ">")
+              (unless (member tagname simplezen-empty-tags)
+                (save-excursion (insert "</" tagname ">"))))
+          (simplezen--maybe-fall-back)))
+    (simplezen--maybe-fall-back)))
 
 (defun simplezen-expand-or-indent-for-tab ()
   (interactive)
