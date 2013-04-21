@@ -3,6 +3,7 @@
 ;; Copyright (C) 2013 Magnar Sveen
 
 ;; Author: Magnar Sveen <magnars@gmail.com>
+;; Package-Requires: ((s "1.4.0") (dash "1.1.0"))
 ;; Version: 0.1.1
 
 ;; This program is free software; you can redistribute it and/or modify
