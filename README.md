@@ -27,7 +27,7 @@ Yes, I have it on TAB.
 
 ## Installation
 
-I highly recommended installing simplezen through elpa.
+I highly recommend installing simplezen through elpa.
 
 It's available on [marmalade](http://marmalade-repo.org/) and
 [melpa](http://melpa.milkbox.net/):
